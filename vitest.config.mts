@@ -8,12 +8,13 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: ['./src/test/setup.ts'],
+    exclude: ['node_modules', 'e2e/**'],
     coverage: {
       reporter: ['text', 'html'],
-      exclude: ['node_modules/', 'src/test/', '*.config.*'],
+      exclude: ['node_modules/', 'src/test/', '*.config.*', 'e2e/'],
     },
   },
   resolve: {
-    alias: { '@': path.resolve(__dirname, './src') },
+    alias: { '@': path.resolve(import.meta.dirname, './src') },
   },
 })

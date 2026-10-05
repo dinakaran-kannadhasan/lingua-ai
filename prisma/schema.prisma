@@ -9,18 +9,21 @@ datasource db {
 }
 
 model User {
-  id             String            @id @default(cuid())
-  email          String            @unique
-  name           String?
-  passwordHash   String?
-  createdAt      DateTime          @default(now())
-  updatedAt      DateTime          @updatedAt
-  languages      UserLanguage[]
-  progress       Progress[]
-  sessions       LessonSession[]
-  vocabulary     Vocabulary[]
-  shadowAttempts ShadowAttempt[]
+  id               String            @id @default(cuid())
+  email            String            @unique
+  name             String?
+  emailVerified    Boolean           @default(false)
+  image            String?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  languages        UserLanguage[]
+  progress         Progress[]
+  sessions         LessonSession[]
+  vocabulary       Vocabulary[]
+  shadowAttempts   ShadowAttempt[]
   scenarioSessions ScenarioSession[]
+  authSessions     Session[]
+  accounts         Account[]
 }
 
 model UserLanguage {
@@ -101,6 +104,8 @@ model ShadowAttempt {
   phonemeBreakdown Json?
   createdAt        DateTime @default(now())
   user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, language])
 }
 
 model ScenarioSession {
@@ -112,4 +117,49 @@ model ScenarioSession {
   correctionsCount Int      @default(0)
   createdAt        DateTime @default(now())
   user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, language])
+}
+
+// better-auth required models
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+
+  @@unique([providerId, accountId])
+}
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@unique([identifier, value])
 }

@@ -1,9 +1,26 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Build output
+.next
+out
+dist
+build
+
+# Environment variables
 *.env
 .env.local
 .env*.local
-node_modules
-CLAUDE.md
-package-lock.json
 
+# Secrets
+CLAUDE.md
+
+# OS / Editor
 .DS_Store
 .vscode
+*.tsbuildinfo
+
+# Lock files (pnpm only)
+package-lock.json
+yarn.lock
