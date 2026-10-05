@@ -4,7 +4,25 @@
       "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-pnpm --yes)",
       "Bash(git init *)",
       "Bash(git add *)",
-      "Bash(git commit -m 'Initial Next.js scaffold *)"
+      "Bash(git commit -m 'Initial Next.js scaffold *)",
+      "Read(//Users/dinakaran.k/.local/share/pnpm/**)",
+      "Read(//usr/local/bin/**)",
+      "Read(//opt/homebrew/bin/**)",
+      "Bash(cd *)",
+      "Bash(node -e \"const A = require\\('@anthropic-ai/sdk'\\); console.log\\('SDK loaded, version check ok'\\)\")",
+      "Bash(ls *)",
+      "Bash(pnpm test *)",
+      "Bash(/Users/dinakaran.k/.local/share/pnpm/pnpm test *)",
+      "Bash(which node *)",
+      "Read(//Users/dinakaran.k/Library/pnpm/bin/**)",
+      "Read(//Users/dinakaran.k/Library/pnpm/**)",
+      "Bash(~/Library/pnpm/bin/pnpm test *)",
+      "Bash(~/Library/pnpm/bin/pnpm validate *)",
+      "Bash(~/Library/pnpm/bin/pnpm type-check *)",
+      "Bash(~/Library/pnpm/bin/pnpm lint *)",
+      "Bash(~/Library/pnpm/bin/pnpm list *)",
+      "Bash(node -e \"const {fsrs, generatorParameters, Rating} = require\\('ts-fsrs'\\); console.log\\(Rating\\)\")",
+      "Bash(~/Library/pnpm/bin/pnpm build *)"
     ]
   }
 }
