@@ -1,0 +1,115 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id             String            @id @default(cuid())
+  email          String            @unique
+  name           String?
+  passwordHash   String?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  languages      UserLanguage[]
+  progress       Progress[]
+  sessions       LessonSession[]
+  vocabulary     Vocabulary[]
+  shadowAttempts ShadowAttempt[]
+  scenarioSessions ScenarioSession[]
+}
+
+model UserLanguage {
+  id        String   @id @default(cuid())
+  userId    String
+  language  String   // 'french' | 'german' | 'italian'
+  level     String   // 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2'
+  startedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, language])
+}
+
+model Progress {
+  id                String   @id @default(cuid())
+  userId            String
+  language          String
+  hoursCompleted    Float    @default(0)
+  wordsLearned      Int      @default(0)
+  sessionsCompleted Int      @default(0)
+  streakDays        Int      @default(0)
+  lastActiveAt      DateTime @default(now())
+  skills            Json     @default("{\"reading\":0,\"writing\":0,\"speaking\":0,\"listening\":0}")
+  completedSessions String[] @default([])
+  currentUnit       Int      @default(1)
+  currentSession    String   @default("1.1")
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, language])
+}
+
+model LessonSession {
+  id           String    @id @default(cuid())
+  userId       String
+  language     String
+  level        String
+  unitId       Int
+  sessionId    String
+  activityType String
+  startedAt    DateTime  @default(now())
+  completedAt  DateTime?
+  durationSecs Int       @default(0)
+  conversation Json      @default("[]")
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, language])
+}
+
+model Vocabulary {
+  id           String   @id @default(cuid())
+  userId       String
+  language     String
+  word         String
+  phonetic     String
+  meaning      String
+  example      String?
+  easeFactor   Float    @default(2.5)
+  intervalDays Int      @default(1)
+  nextReviewAt DateTime @default(now())
+  timesCorrect Int      @default(0)
+  timesWrong   Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, language, nextReviewAt])
+}
+
+model ShadowAttempt {
+  id               String   @id @default(cuid())
+  userId           String
+  language         String
+  phraseText       String
+  phoneticGuide    String
+  score            Int
+  phonemeBreakdown Json?
+  createdAt        DateTime @default(now())
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ScenarioSession {
+  id               String   @id @default(cuid())
+  userId           String
+  language         String
+  scenarioType     String   // 'cafe' | 'hotel' | 'market' | 'station' | 'doctor' | 'restaurant'
+  conversation     Json     @default("[]")
+  correctionsCount Int      @default(0)
+  createdAt        DateTime @default(now())
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

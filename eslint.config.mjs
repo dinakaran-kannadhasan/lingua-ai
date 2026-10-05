@@ -1,13 +1,10 @@
-import { FlatCompat } from '@eslint/eslintrc'
-import path from 'path'
-import { fileURLToPath } from 'url'
+import { createRequire } from 'module'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-const compat = new FlatCompat({ baseDirectory: __dirname })
+const require = createRequire(import.meta.url)
+const nextConfig = require('eslint-config-next')
 
 const eslintConfig = [
-  ...compat.extends('next/core-web-vitals', 'next/typescript'),
+  ...nextConfig,
   {
     rules: {
       '@typescript-eslint/no-explicit-any': 'error',
@@ -19,4 +16,5 @@ const eslintConfig = [
     },
   },
 ]
+
 export default eslintConfig

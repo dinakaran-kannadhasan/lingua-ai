@@ -1,13 +1,16 @@
 import '@testing-library/jest-dom'
 import { vi } from 'vitest'
 
-global.SpeechRecognition = vi.fn() as unknown as typeof SpeechRecognition
-global.webkitSpeechRecognition = vi.fn() as unknown as typeof SpeechRecognition
-global.speechSynthesis = {
-  speak: vi.fn(),
-  cancel: vi.fn(),
-  getVoices: vi.fn(() => []),
-} as unknown as SpeechSynthesis
+// Web Speech API not available in jsdom
+Object.defineProperty(window, 'SpeechRecognition', { value: vi.fn(), writable: true })
+Object.defineProperty(window, 'webkitSpeechRecognition', {
+  value: vi.fn(),
+  writable: true,
+})
+Object.defineProperty(window, 'speechSynthesis', {
+  value: { speak: vi.fn(), cancel: vi.fn(), getVoices: vi.fn(() => []) },
+  writable: true,
+})
 
 vi.mock('@/lib/db/client', () => ({
   db: {
