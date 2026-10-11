@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "architecture",
+  "quality": "showcase",
+  "specification": {
+    "path": "/Users/dinakaran.k/Documents/AI Applications/Marketing Agentic AI/.archify/architecture-lingua-ai-20261011-120000/candidate.json",
+    "sha256": "4d97f9967a4de7f10ab928cd675aff21052303586b2210a1ab2ed0d34d924845",
+    "bytes": 7013
+  },
+  "artifact": {
+    "path": "/Users/dinakaran.k/Documents/AI Applications/Marketing Agentic AI/.archify/architecture-lingua-ai-20261011-120000/lingua-ai.html",
+    "sha256": "a2943b0281cb99aa44d280a05c86e12f010b7ca0d46cd32bdede4d65f80ed3bd",
+    "bytes": 770589
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "/Users/dinakaran.k/Documents/AI Applications/Marketing Agentic AI/.archify/architecture-lingua-ai-20261011-120000/lingua-ai.finalize.json",
+    "summaryReceipt": "/Users/dinakaran.k/Documents/AI Applications/Marketing Agentic AI/.archify/architecture-lingua-ai-20261011-120000/lingua-ai.finalize-summary.json",
+    "browserCheckReceipt": "/Users/dinakaran.k/Documents/AI Applications/Marketing Agentic AI/.archify/architecture-lingua-ai-20261011-120000/lingua-ai.browser-check.json"
+  },
+  "update": {
+    "status": "unavailable",
+    "installedVersion": null,
+    "availableVersion": null,
+    "releaseNotes": null,
+    "checkedAt": null,
+    "source": null,
+    "noticeRequired": false,
+    "noticeText": null,
+    "reason": "cache-valid"
+  },
+  "visualReview": "not-requested",
+  "durationMs": 1429,
+  "visualReviewRecommendation": {
+    "action": "inspect-route-readability",
+    "signals": {
+      "routesOverSuggestedBends": 2
+    },
+    "reason": "Automated gates passed, but crossings or detours still need perceptual review before claiming visual quality.",
+    "affectedRoutes": {
+      "crossings": [],
+      "detours": [
+        {
+          "relationship": {
+            "id": "auth-to-api",
+            "from": "better-auth",
+            "to": "api-routes",
+            "label": "verify session",
+            "collectionIndex": 4,
+            "artifactIndex": 5
+          },
+          "bends": 3,
+          "stretch": 1
+        },
+        {
+          "relationship": {
+            "id": "api-to-azure",
+            "from": "api-routes",
+            "to": "azure-speech",
+            "label": "phoneme score",
+            "collectionIndex": 9,
+            "artifactIndex": 10
+          },
+          "bends": 4,
+          "stretch": 1
+        }
+      ],
+      "truncated": false
+    },
+    "hints": [
+      "better-auth → api-routes needs 3 bends: move node better-auth or api-routes so they share a row or column with matching centers, or sit diagonally with a clear corner.",
+      "api-routes → azure-speech needs 4 bends: move node api-routes or azure-speech so they share a row or column with matching centers, or sit diagonally with a clear corner."
+    ],
+    "repair": "Trace these relationships at the desktop viewport. For Architecture, use references/architecture-layout-repair.md: reflow a blocked main path or tangled connected scene, and repair an isolated defect locally only when the surrounding composition is accepted. Preserve all semantic content and user-fixed geometry. Rerun finalize once after the edit."
+  }
+}

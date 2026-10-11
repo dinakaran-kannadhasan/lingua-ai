@@ -1,0 +1,264 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Lingua AI — CEFR Language Learning Platform",
+    "output": ".archify/architecture-lingua-ai-20261011-120000/lingua-ai.html",
+    "quality_profile": "showcase",
+    "locale": "en",
+    "repository": {
+      "url": "https://github.com/dinakaran-kannadhasan/lingua-ai.git",
+      "revision": "c5bb4f3e1babe3ec1141ca3aabf97d71527db1a1"
+    }
+  },
+  "components": [
+    {
+      "id": "better-auth",
+      "type": "security",
+      "label": "Better Auth",
+      "sublabel": "session provider",
+      "pos": [35, 80],
+      "size": [150, 60],
+      "sources": [
+        { "path": "src/lib/auth/config.ts", "line": 1 },
+        { "path": "src/app/api/auth/[...all]/route.ts", "line": 1 }
+      ]
+    },
+    {
+      "id": "redis",
+      "type": "database",
+      "label": "Upstash Redis",
+      "sublabel": "rate limiter",
+      "pos": [510, 80],
+      "size": [150, 60],
+      "sources": [
+        { "path": "src/lib/redis/rateLimiter.ts", "line": 1 },
+        { "path": "src/lib/redis/client.ts", "line": 1 }
+      ]
+    },
+    {
+      "id": "azure-speech",
+      "type": "cloud",
+      "label": "Azure Speech",
+      "sublabel": "phoneme scoring",
+      "pos": [775, 80],
+      "size": [170, 60],
+      "sources": [
+        { "path": "src/lib/ai/pronunciation.ts", "line": 1 },
+        { "path": "src/app/api/lesson/pronunciation/route.ts", "line": 53 }
+      ]
+    },
+    {
+      "id": "user-browser",
+      "type": "external",
+      "label": "Users",
+      "sublabel": "Browser / Mobile",
+      "pos": [50, 240],
+      "size": [120, 60]
+    },
+    {
+      "id": "nextjs-frontend",
+      "type": "frontend",
+      "label": "Next.js Frontend",
+      "sublabel": "App Router pages",
+      "pos": [235, 240],
+      "size": [170, 60],
+      "sources": [{ "path": "src/app/(app)/lesson/[sessionId]/page.tsx", "line": 1 }]
+    },
+    {
+      "id": "api-routes",
+      "type": "backend",
+      "label": "API Routes",
+      "sublabel": "Next.js server",
+      "pos": [510, 240],
+      "size": [160, 60],
+      "sources": [{ "path": "src/app/api/lesson/chat/route.ts", "line": 1 }]
+    },
+    {
+      "id": "claude-ai",
+      "type": "cloud",
+      "label": "Claude Sonnet 4.5",
+      "sublabel": "AI teacher · streaming",
+      "pos": [775, 240],
+      "size": [170, 60],
+      "sources": [{ "path": "src/lib/ai/claude.ts", "line": 4 }]
+    },
+    {
+      "id": "tts-stt",
+      "type": "cloud",
+      "label": "TTS / STT",
+      "sublabel": "Web Speech / Groq",
+      "pos": [235, 400],
+      "size": [170, 60],
+      "sources": [{ "path": "src/hooks/useTextToSpeech.ts", "line": 1 }]
+    },
+    {
+      "id": "neon-postgres",
+      "type": "database",
+      "label": "Neon PostgreSQL",
+      "sublabel": "Prisma ORM",
+      "pos": [510, 400],
+      "size": [160, 60],
+      "sources": [{ "path": "prisma/schema.prisma", "line": 1 }]
+    },
+    {
+      "id": "srs-engine",
+      "type": "backend",
+      "label": "SRS Engine",
+      "sublabel": "ts-fsrs scheduler",
+      "pos": [775, 400],
+      "size": [170, 60],
+      "sources": [{ "path": "src/lib/srs/scheduler.ts", "line": 1 }]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Vercel deployment",
+      "wraps": ["nextjs-frontend", "api-routes"]
+    }
+  ],
+  "connections": [
+    {
+      "id": "user-to-frontend",
+      "from": "user-browser",
+      "to": "nextjs-frontend",
+      "label": "HTTPS",
+      "variant": "emphasis"
+    },
+    {
+      "id": "frontend-to-api",
+      "from": "nextjs-frontend",
+      "to": "api-routes",
+      "label": "fetch / SSE"
+    },
+    {
+      "id": "api-to-claude",
+      "from": "api-routes",
+      "to": "claude-ai",
+      "label": "SDK stream",
+      "variant": "emphasis"
+    },
+    {
+      "id": "user-to-auth",
+      "from": "user-browser",
+      "to": "better-auth",
+      "label": "login / register",
+      "variant": "security",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "auth-to-api",
+      "from": "better-auth",
+      "to": "api-routes",
+      "label": "verify session",
+      "variant": "security",
+      "fromSide": "right",
+      "toSide": "top",
+      "via": [
+        [490, 110],
+        [490, 200],
+        [590, 200]
+      ]
+    },
+    {
+      "id": "api-to-redis",
+      "from": "api-routes",
+      "to": "redis",
+      "label": "rate limit",
+      "variant": "dashed",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "api-to-postgres",
+      "from": "api-routes",
+      "to": "neon-postgres",
+      "label": "Prisma CRUD",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "api-to-srs",
+      "from": "api-routes",
+      "to": "srs-engine",
+      "label": "vocab / schedule",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "srs-to-postgres",
+      "from": "srs-engine",
+      "to": "neon-postgres",
+      "label": "ts-fsrs write",
+      "fromSide": "left",
+      "toSide": "right"
+    },
+    {
+      "id": "api-to-azure",
+      "from": "api-routes",
+      "to": "azure-speech",
+      "label": "phoneme score",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "azure-fallback",
+      "from": "azure-speech",
+      "to": "claude-ai",
+      "label": "fallback",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "frontend-to-tts",
+      "from": "nextjs-frontend",
+      "to": "tts-stt",
+      "label": "play audio",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "violet",
+      "title": "AI Teaching Engine",
+      "items": [
+        "Claude Sonnet 4.5 streams lesson responses via SSE",
+        "8 activity types: Vocabulary, Grammar, Phonetics, Shadow, Scenario, Listen, Quiz, Review",
+        "Adapts language: English explanations at A1, full immersion at C2"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Voice & Pronunciation",
+      "items": [
+        "Azure Cognitive Services: phoneme-level word-by-word scoring",
+        "Falls back to Claude estimation when Azure free quota (5 hrs/month) is reached",
+        "Shadow Mode: hear phrase → repeat → see color-coded phoneme feedback"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Spaced Repetition (SRS)",
+      "items": [
+        "Vocabulary auto-extracted from every Vocabulary activity response",
+        "ts-fsrs algorithm schedules next review at optimal interval",
+        "Ratings: Again / Hard / Good / Easy map to FSRS stability updates"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Rate Limiting & Auth",
+      "items": [
+        "Lesson chat: 30 requests / minute per user (sliding window)",
+        "Pronunciation: 100 requests / hour per user",
+        "Better Auth handles email/password + session cookies"
+      ]
+    }
+  ]
+}

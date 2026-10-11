@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "d81cbb55-ab39-4e9c-b0b9-879f0f4fb1c1",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/Users/dinakaran.k/Documents/AI Applications/Marketing Agentic AI/.archify/architecture-lingua-ai-20261011-120000/candidate.json",
+  "output": "/Users/dinakaran.k/Documents/AI Applications/Marketing Agentic AI/.archify/architecture-lingua-ai-20261011-120000/lingua-ai.html",
+  "specification": {
+    "sha256": "4d97f9967a4de7f10ab928cd675aff21052303586b2210a1ab2ed0d34d924845",
+    "bytes": 7013
+  },
+  "artifact": {
+    "sha256": "a2943b0281cb99aa44d280a05c86e12f010b7ca0d46cd32bdede4d65f80ed3bd",
+    "bytes": 770589
+  }
+}

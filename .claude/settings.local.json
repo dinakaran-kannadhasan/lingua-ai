@@ -22,7 +22,23 @@
       "Bash(~/Library/pnpm/bin/pnpm lint *)",
       "Bash(~/Library/pnpm/bin/pnpm list *)",
       "Bash(node -e \"const {fsrs, generatorParameters, Rating} = require\\('ts-fsrs'\\); console.log\\(Rating\\)\")",
-      "Bash(~/Library/pnpm/bin/pnpm build *)"
+      "Bash(~/Library/pnpm/bin/pnpm build *)",
+      "Bash(pnpm type-check *)",
+      "Bash(/Users/dinakaran.k/.local/share/pnpm/pnpm type-check *)",
+      "Bash(node_modules/.bin/tsc --noEmit)",
+      "Bash(node_modules/.bin/next lint *)",
+      "Bash(node_modules/.bin/eslint src/lib/ai/tts.ts src/app/api/lesson/tts/route.ts src/hooks/useTextToSpeech.ts)",
+      "Bash(node_modules/.bin/next dev *)",
+      "Bash(echo \"PID: $!\")",
+      "Bash(curl -s http://localhost:3000/api/lesson/tts)",
+      "Bash(curl *)",
+      "Bash(python3 -m json.tool)",
+      "Bash(node -e ' *)",
+      "Bash(node_modules/.bin/playwright install *)",
+      "Bash(python3 -c ' *)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(echo \"Server PID: $!\")",
+      "Bash(python3 -m http.server 8765)"
     ]
   }
 }

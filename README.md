@@ -196,9 +196,11 @@ See [DEPLOY.md](./DEPLOY.md) for the full step-by-step Vercel deployment guide, 
 
 ---
 
-## Screenshots
+## Architecture
 
-> Coming soon — contributions welcome!
+![Lingua AI Architecture](./public/architecture.png)
+
+> Interactive version: open [`architecture-lingua-ai-20261011-120000/lingua-ai.html`](./architecture-lingua-ai-20261011-120000/lingua-ai.html) locally for the full explorable diagram with dark/light themes and export options.
 
 ---
 
